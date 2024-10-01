@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "A backend server that provides websocket",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.ts",
+    "dev": "node index.ts"
+  },
+  "keywords": ["server", "websocket"],
+  "author": "Jan Polacek",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.x",
+    "ws": "^8.x"
+  }
+}
