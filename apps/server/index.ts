@@ -14,13 +14,24 @@ wss.on('connection', (ws) => {
   console.log('New client connected');
 
   ws.on('message', (message) => {
-    console.log(`Received message => ${message}`);
+    try {
+      const data = JSON.parse(message);
 
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(message.toString());
+      if (data.index !== undefined && typeof data.color === 'string') {
+        console.log(`Received: { index: ${data.index}, color: ${data.color} }`);
+
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(message.toString());
+          }
+        });
+
+      } else {
+        console.error('Invalid data format');
       }
-    });
+    } catch (error) {
+      console.error('Error parsing message', error);
+    }
   });
 
   ws.on('close', () => {

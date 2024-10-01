@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import useCanvas from "../hooks/useCanvas.ts";
 import {cn} from "../utils.ts";
 import "./canvas.css"
+import {useColorWebSocket} from "../hooks/useWebSocket";
 
 interface CanvasProps {
   paint: string;
@@ -12,6 +13,19 @@ const PIXEL_COUNT = 8000;
 
 const Canvas: React.FC<CanvasProps> = ({paint, className}) => {
   const {pixels, updatePixel} = useCanvas(PIXEL_COUNT);
+  const {lastJsonMessage, sendJsonMessage} = useColorWebSocket();
+
+  useEffect(() => {
+    if (lastJsonMessage !== null) {
+      // console.log('Received: ', lastJsonMessage.index, lastJsonMessage.color)
+      updatePixel(lastJsonMessage.index, lastJsonMessage.color);
+    }
+  }, [lastJsonMessage]);
+
+  const handlePixelClick = (index: number, paint: string) => {
+    // console.log('Sending: ', index, paint)
+    sendJsonMessage({index: index, color: paint});
+  };
 
   return (
     <div className={cn(className, "canvas")}>
@@ -23,7 +37,7 @@ const Canvas: React.FC<CanvasProps> = ({paint, className}) => {
             style={{
               backgroundColor: color,
             }}
-            onClick={() => updatePixel(index, paint)}
+            onClick={() => handlePixelClick(index, paint)}
           />
         ))
       }
