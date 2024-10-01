@@ -1,0 +1,28 @@
+.canvas {
+    width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.canvas__square {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+}
+
+.canvas__square:hover {
+    opacity: 80%;
+}
+
+@media only screen and (max-width: 1050px) {
+    .canvas__square {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+
+    .canvas {
+       width: 400px;
+    }
+}

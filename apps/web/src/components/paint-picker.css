@@ -1,0 +1,29 @@
+.paint-picker {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.paint-picker__color {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.paint-picker__palette {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 4rem;
+    border-radius: 2rem;
+    background-color: #7a7a7a;
+}
+
+.paint-picker__palette-color {
+    margin: auto 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
