@@ -6,13 +6,16 @@ import {useColorWebSocket} from "../hooks/useWebSocket";
 
 interface CanvasProps {
   paint: string;
+  hover: boolean;
   className?: string;
 }
 
 const PIXEL_COUNT = 8000;
 
-const Canvas: React.FC<CanvasProps> = ({paint, className}) => {
+const Canvas: React.FC<CanvasProps> = ({paint, hover, className}) => {
   const {pixels, updatePixel} = useCanvas(PIXEL_COUNT);
+
+  // TODO handle server down option
   const {lastJsonMessage, sendJsonMessage} = useColorWebSocket();
 
   useEffect(() => {
@@ -24,8 +27,18 @@ const Canvas: React.FC<CanvasProps> = ({paint, className}) => {
 
   const handlePixelClick = (index: number, paint: string) => {
     // console.log('Sending: ', index, paint)
+    updatePixel(index, paint);
     sendJsonMessage({index: index, color: paint});
   };
+
+
+  const handlePixelHover = (index: number, paint: string) => {
+    if (!hover) {
+      return;
+    }
+    updatePixel(index, paint);
+    sendJsonMessage({index: index, color: paint});
+  }
 
   return (
     <div className={cn(className, "canvas")}>
@@ -38,6 +51,7 @@ const Canvas: React.FC<CanvasProps> = ({paint, className}) => {
               backgroundColor: color,
             }}
             onClick={() => handlePixelClick(index, paint)}
+            onMouseEnter={() => {handlePixelHover(index, paint) }}
           />
         ))
       }
